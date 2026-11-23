@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Болзооны урилга ✨</title>
+    <script src="https://jsdelivr.net"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fff0f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            text-align: center;
+            color: #333;
+        }
+        .card {
+            background: white;
+            padding: 30px 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(255, 105, 180, 0.2);
+            max-width: 400px;
+            width: 90%;
+        }
+        h1 { color: #ff4d88; font-size: 24px; margin-bottom: 10px; }
+        p { font-size: 16px; margin-bottom: 20px; color: #555; }
+        .btn-group { display: flex; flex-direction: column; gap: 10px; }
+        button {
+            background-color: #ff4d88;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+        }
+        button:hover { background-color: #e6005c; transform: scale(1.02); }
+        .no-btn { background-color: #ccc; color: #333; }
+        .hidden { display: none; }
+        input[type="text"], input[type="date"], input[type="time"] {
+            width: 85%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ffb3cc;
+            border-radius: 10px;
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div id="step1">
+        <h1>Нэгэн гоё өдрийг хамт өнгөрүүлэх үү? 🌸</h1>
+        <p>Чамтай уулзаж, гоё ярилцаад суувал ямар вэ?</p>
+        <div class="btn-group">
+            <button onclick="nextStep(2); fireConfetti();">Тэгье, дуртайяа! 💖</button>
+            <button id="noBtn" class="no-btn" onmouseover="moveButton()" onclick="moveButton()">Үгүй ээ 🙈</button>
+        </div>
+    </div>
+
+    <div id="step2" class="hidden">
+        <h1>Юу хийвэл гоё вэ? ☕</h1>
+        <p>Аль нэгийг нь сонгоорой:</p>
+        <div class="btn-group">
+            <button onclick="selectActivity('Coffee date ☕')">Coffee date & Амттан ☕🍰</button>
+            <button onclick="selectActivity('Оройн хоол 🍝')">Амттай оройн хоол 🍝</button>
+            <button onclick="selectActivity('Кино үзэх 🎬')">Кино үзэж, попкорн идэх 🎬🍿</button>
+            <button onclick="selectActivity('Зугаалах 🚶‍♂️')">Хотын төвөөр алхаж ярилцах 🌆</button>
+        </div>
+    </div>
+
+    <div id="step3" class="hidden">
+        <h1>Хэдийд завтай вэ? 📅</h1>
+        <p>Өдөр, цагаа сонгоорой:</p>
+        <input type="date" id="dateInput">
+        <input type="time" id="timeInput">
+        <div class="btn-group" style="margin-top: 15px;">
+            <button onclick="finish()">Батлах ✨</button>
+        </div>
+    </div>
+
+    <div id="step4" class="hidden">
+        <h1>Тохирлоо шүү! 🎉</h1>
+        <p id="summaryText"></p>
+        <p style="font-size: 14px; color: #888;">Энэ хэсгийг Screenshot хийгээд надад явуулаарай 😉</p>
+    </div>
+</div>
+
+<script>
+    let chosenActivity = "";
+
+    function nextStep(step) {
+        document.querySelectorAll('.card > div').forEach(div => div.classList.add('hidden'));
+        document.getElementById('step' + step).classList.remove('hidden');
+    }
+
+    function selectActivity(activity) {
+        chosenActivity = activity;
+        nextStep(3);
+    }
+
+    function finish() {
+        const date = document.getElementById('dateInput').value || "Тохиролцох өдөр";
+        const time = document.getElementById('timeInput').value || "Тохиролцох цаг";
+        document.getElementById('summaryText').innerHTML = 
+            `<b>Сонголт:</b> ${chosenActivity}<br><b>Хэзээ:</b> ${date}, ${time} цагт`;
+        nextStep(4);
+        fireConfetti();
+    }
+
+    function moveButton() {
+        const btn = document.getElementById('noBtn');
+        const x = Math.random() * 200 - 100;
+        const y = Math.random() * 200 - 100;
+        btn.style.transform = `translate(${x}px, ${y}px)`;
+    }
+
+    function fireConfetti() {
+        confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 }
+        });
+    }
+</script>
+
+</body>
+</html>
